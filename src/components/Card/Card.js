@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
+import { ReactComponent as IconSave } from '../../assets/save.svg'
+import { ReactComponent as IconLinkExternal } from '../../assets/external.svg'
 
 export const Container = styled.article`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 250px;
   border-radius: 20px 0 0 0;
   overflow: hidden;
   position: relative;
-  box-shadow: 5px 7px 12px #0000006e;
+  box-shadow: 6px 6px 10px 0px #0000003b
 `
 
 const ImageContainer = styled.figure`
@@ -34,7 +35,6 @@ const Description = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
   transform: translateY(calc(100% + 16px));
   transition: 0.3s ease;
   ${Container}:hover & {
@@ -44,7 +44,7 @@ const Description = styled.div`
 
 const Name = styled.p`
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   color: black;
 `
@@ -59,7 +59,15 @@ const ViewMore = styled.div`
   height: 32px;
   border-radius: 50%;
   transition: 0.3s ease;
-  left: calc(50% - 32px);
+  left: calc(50% - 16px);
+  background: #ffffffe6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  svg {
+    width: 22px;
+  }
 `
 
 const Save = styled.button`
@@ -77,6 +85,12 @@ const Save = styled.button`
   ${Container}:hover & {
     transform: scale(1)
   }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 18px;
+  }
 `
 
 function Card ({
@@ -89,11 +103,11 @@ function Card ({
         <Image src={src} />
       </ImageContainer>
       <Save>
-          save
+        <IconSave />
       </Save>
       <Description>
         <ViewMore>
-            view more
+          <IconLinkExternal />
         </ViewMore>
         <Name>
           {name}
@@ -104,7 +118,8 @@ function Card ({
 }
 
 Card.propTypes = {
-
+  src: PropTypes.string,
+  name: PropTypes.string
 }
 
 export default Card

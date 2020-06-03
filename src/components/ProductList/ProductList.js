@@ -7,7 +7,6 @@ const Container = styled.section`
   flex: 1;
   min-height: 100vh;
   display: flex;
-  background: #f3f3f3
 `
 const List = styled.ul`
   padding: 40px;
