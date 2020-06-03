@@ -19,6 +19,7 @@ const MainNav = styled.nav`
   height: 100vh;
   flex: 0 0 120px;
   position: relative;
+  box-shadow: 1px 0px 20px 0px #7b7b7b54
 `
 
 const CategoryList = styled.ul`

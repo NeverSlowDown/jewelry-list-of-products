@@ -7,19 +7,42 @@ const Container = styled.section`
   flex: 1;
   min-height: 100vh;
   display: flex;
+  background: #f3f3f3
 `
 const List = styled.ul`
   padding: 40px;
-  background: lightgray;
   flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px);
+  grid-gap: 30px;
+  justify-content: space-around;
+  grid-auto-rows: minmax(min-content, max-content);
+
+`
+const Item = styled.li`
+
 `
 
 function ProductList (props) {
   return (
     <Container>
       <List>
-        List of products
-        <Card />
+        <Item>
+          <Card />
+        </Item>
+        <Item>
+          <Card />
+        </Item>
+        <Item>
+          <Card />
+        </Item>
+        <Item>
+          <Card />
+        </Item>
+        <Item>
+          <Card />
+        </Item>
+
       </List>
     </Container>
   )
