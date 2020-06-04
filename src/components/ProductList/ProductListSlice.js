@@ -97,10 +97,27 @@ export const getProductsFavorites = async dispatch => {
   dispatch(toggleLoading)
 }
 export const getProductsBracelets = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/bracelets.json
+  try {
+    await dispatch(toggleLoading)
+    const res = await axios({
+      method: 'get',
+      url: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/bracelets.json'
+    })
 
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
+    const data = res.data
+
+    // let's get only the products of all these categories
+    let products = []
+    data.map(item => {
+      products = [...products, ...item.products]
+    })
+
+    dispatch(productsBracelets(products))
+  } catch (error) {
+    console.log(error.response)
+
+    return error.response
+  }
   dispatch(toggleLoading)
 }
 export const getProductsNecklaces = async dispatch => {
