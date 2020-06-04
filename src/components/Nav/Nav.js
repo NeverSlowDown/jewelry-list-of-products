@@ -18,16 +18,15 @@ const MainNav = styled.nav`
   top: 0;
   height: 100vh;
   flex: 0 0 120px;
-  position: relative;
-  box-shadow: 1px 0px 20px 0px #7b7b7b54
+  box-shadow: 1px 0px 20px 0px #7b7b7b54;
+  position: sticky;
+  top: 0;
 `
 
 const CategoryList = styled.ul`
   display: flex;
   flex-direction: column;
   flex: 1;
-  position: sticky;
-  top: 0;
   max-height: 100vh;
   overflow-y: auto;
 `

@@ -11,7 +11,11 @@ export const Container = styled.article`
   border-radius: 20px 0 0 0;
   overflow: hidden;
   position: relative;
-  box-shadow: 6px 6px 10px 0px #0000003b
+  box-shadow: 6px 6px 10px 0px #0000003b;
+  transition: 0.3s ease;
+  &:hover {
+    box-shadow: 6px 6px 17px 3px #00000045;
+  }
 `
 
 const ImageContainer = styled.figure`
