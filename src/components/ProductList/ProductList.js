@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../Card'
 import styled from 'styled-components/macro'
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
 
 import {
   getProductsAll,
@@ -15,7 +15,7 @@ import {
   getProductsPendants,
   getProductsRings,
   getProductsStakingSets
-} from './ProductListSlice';
+} from './ProductListSlice'
 
 const Container = styled.section`
   flex: 1;
@@ -36,8 +36,8 @@ const Item = styled.li`
 `
 
 function ProductList (props) {
+  const dispatch = useDispatch()
   const myProducts = useSelector((state) => state.products.all)
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProductsAll)
@@ -46,22 +46,11 @@ function ProductList (props) {
   return (
     <Container>
       <List>
-        <Item>
-          <Card />
-        </Item>
-        <Item>
-          <Card />
-        </Item>
-        <Item>
-          <Card />
-        </Item>
-        <Item>
-          <Card />
-        </Item>
-        <Item>
-          <Card />
-        </Item>
-
+        {myProducts.map(item => (
+          <Item key={item.id}>
+            <Card item={item} />
+          </Item>
+        ))}
       </List>
     </Container>
   )

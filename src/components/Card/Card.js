@@ -11,10 +11,11 @@ export const Container = styled.article`
   border-radius: 20px 0 0 0;
   overflow: hidden;
   position: relative;
-  box-shadow: 6px 6px 10px 0px #0000003b;
+  
+  box-shadow: 0px 5px 16px 0px #0000002e;
   transition: 0.3s ease;
   &:hover {
-    box-shadow: 6px 6px 17px 3px #00000045;
+    box-shadow: 0px 10px 20px 0px #0000002e;
   }
 `
 
@@ -28,7 +29,7 @@ const ImageContainer = styled.figure`
 `
 
 const Image = styled.img`
-  min-height: 100%;
+  width: 100%;
 `
 
 const Description = styled.div`
@@ -41,6 +42,8 @@ const Description = styled.div`
   left: 0;
   transform: translateY(calc(100% + 16px));
   transition: 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
   ${Container}:hover & {
     transform: translateY(0);
   }
@@ -51,6 +54,7 @@ const Name = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: black;
+  text-align: center;
 `
 
 const ViewMore = styled.div`
@@ -97,14 +101,12 @@ const Save = styled.button`
   }
 `
 
-function Card ({
-  src = 'https://dto508s2j2p46.cloudfront.net/system/spree/products/3475/product/October_19_-_Studio-0053_copy.jpg?1542037348',
-  name = 'Awesome Ring by Mejuri Winter 2020'
-}) {
+function Card ({item}) {
+  const {name, variant_images} = item;
   return (
     <Container>
       <ImageContainer>
-        <Image src={src} />
+        <Image src={variant_images[0].attachment_url_medium} />
       </ImageContainer>
       <Save>
         <IconSave />
