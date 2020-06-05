@@ -107,7 +107,7 @@ export const getProducts = category => async dispatch => {
 
     const data = res.data
 
-    // let's get only the products of all these categories
+    // let's get only the products of all these categories (in case of category "All" it has more than one category)
     let products = []
     data.map(item => {
       products = [...products, ...item.products]
