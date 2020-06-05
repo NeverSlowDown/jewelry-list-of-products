@@ -50,6 +50,31 @@ const PaginationStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0px 5px 16px 0px #0000002e;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    max-height: 50px;
+  }
+  li.rc-pagination-item, .rc-pagination-next, .rc-pagination-prev {
+    padding: 15px;
+    background: #f4f4f4;
+    font-family: 'Montserrat';
+    font-weight: 300;
+    cursor: pointer;
+    &:hover, &.rc-pagination-item-active {
+      background: #debd9d
+    }
+    &.rc-pagination-disabled{
+      opacity: 0.5
+    }
+  }
+  .rc-pagination-jump-next, .rc-pagination-jump-prev {
+    margin: 0 10px;
+    &:after {
+      content: "..."
+    }
   }
 `
 
@@ -61,6 +86,7 @@ function ProductList (props) {
   const [currentData, setCurrentData] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const loading = useSelector(isLoading)
+
   // my products redux state:
   const all = useSelector(allProducts)
   const favorites = useSelector(favoritesProducts)
@@ -133,14 +159,15 @@ function ProductList (props) {
             ))
         }
       </List>
-      <Pagination
-        total={currentProducts.length}
-        prevIcon={<span>prev</span>}
-        nextIcon={<span>next</span>}
-        pageSize={itemsPerPage}
-        onChange={handlePaginate}
-        current={currentPage}
-      />
+      {!loading && currentProducts.length > 0 &&
+        <Pagination
+          total={currentProducts.length}
+          prevIcon='&lt;'
+          nextIcon='&gt;'
+          pageSize={itemsPerPage}
+          onChange={handlePaginate}
+          current={currentPage}
+        />}
     </Container>
   )
 }
