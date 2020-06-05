@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { ReactComponent as IconSave } from '../../assets/save.svg'
 import { ReactComponent as IconLinkExternal } from '../../assets/external.svg'
+
+import { productsFavorites, favoritesProducts } from '../ProductList/ProductListSlice'
+import { useSelector, useDispatch } from 'react-redux'
 
 export const Container = styled.article`
   display: flex;
@@ -97,11 +100,11 @@ const Save = styled.button`
   position: absolute;
   right: 10px;
   top: 10px;
-  background: white;
+  background: ${props => props.isSaved ? 'red' : 'white'};
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  transform: scale(0);
+  transform: scale(${props => props.isSaved ? 1 : 0});
   transition: 0.3s 0.3s ease;
   ${Container}:hover & {
     transform: scale(1)
@@ -111,17 +114,34 @@ const Save = styled.button`
   justify-content: center;
   svg {
     width: 18px;
+    g {
+      fill: ${props => props.isSaved ? 'white' : 'black'}
+    }
   }
 `
 
-function Card ({item}) {
-  const {name, variant_images} = item;
+function Card ({ item }) {
+  const { name, variant_images } = item
+  const [fav, setFav] = useState(false)
+  const dispatch = useDispatch()
+
+  const favoritesState = useSelector(favoritesProducts)
+  const handleSave = () => {
+    setFav(!fav)
+    dispatch(productsFavorites(item))
+  }
+
+  useEffect(() => {
+    const result = favoritesState.find(({ id }) => id === item.id)
+    result !== undefined && setFav(!fav)
+  }, [])
+
   return (
     <Container>
       <ImageContainer>
         <Image src={variant_images[0].attachment_url_medium} />
       </ImageContainer>
-      <Save>
+      <Save isSaved={fav} onClick={handleSave}>
         <IconSave />
       </Save>
       <Description>
@@ -137,8 +157,7 @@ function Card ({item}) {
 }
 
 Card.propTypes = {
-  src: PropTypes.string,
-  name: PropTypes.string
+  item: PropTypes.object
 }
 
 export default Card

@@ -16,14 +16,17 @@ export const productList = createSlice({
     stakingSets: []
   },
   reducers: {
-    toggleLoading: (state, {payload}) => {
+    toggleLoading: (state, { payload }) => {
       state.loading = payload
     },
     productsAll: (state, { payload }) => {
       state.all = payload
     },
     productsFavorites: (state, { payload }) => {
-      state.favorites = payload
+      // if it is already in favorites it means it needs to be deleted, otherwise add it to the list!
+      state.favorites = state.favorites.find(({ id }) => id === payload.id) !== undefined
+        ? state.favorites.filter(({ id }) => id !== payload.id)
+        : [...state.favorites, payload]
     },
     productsBracelets: (state, { payload }) => {
       state.bracelets = payload
