@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../Card'
 import CardSkeleton from '../Card/CardSkeleton'
-import styled from 'styled-components/macro'
+import styled, { createGlobalStyle } from 'styled-components/macro'
 
 import { useLocation } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
+
+import Pagination from 'rc-pagination'
 
 import {
   isLoading,
@@ -26,10 +28,11 @@ const Container = styled.section`
   flex: 1;
   min-height: 100vh;
   display: flex;
+  flex-wrap: wrap;
 `
 const List = styled.ul`
   padding: 40px;
-  flex: 1;
+  flex: 1 1 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 220px);
   grid-gap: 30px;
@@ -40,12 +43,23 @@ const List = styled.ul`
 const Item = styled.li`
 `
 
+// let's override rc-pagination styles
+
+const PaginationStyle = createGlobalStyle`
+  .rc-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+  }
+`
+
 function ProductList (props) {
   const dispatch = useDispatch()
   const currentUrl = useLocation()
 
   const [currentProducts, setCurrentProducts] = useState([])
-
+  const [currentData, setCurrentData] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
   const loading = useSelector(isLoading)
   // my products redux state:
   const all = useSelector(allProducts)
@@ -58,6 +72,8 @@ function ProductList (props) {
   const rings = useSelector(ringsProducts)
   const stakingsets = useSelector(stakingsetsProducts)
 
+  // for react pagination
+  const itemsPerPage = 15
   const productDictionary = {
     '/': all,
     '/favorites': favorites,
@@ -82,12 +98,24 @@ function ProductList (props) {
     setCurrentProducts(productDictionary[currentUrl.pathname])
   }, [currentUrl, all, favorites, bracelets, necklaces, earrings, engagement, pendants, rings, stakingsets])
 
+  // when currentProducts changes (when category changes) I restart the data of the paginator to the first piece (in this case its first 15)
+  useEffect(() => {
+    setCurrentData(currentProducts.slice(0, 0 + itemsPerPage))
+  }, [currentProducts])
+
+  const handlePaginate = (current, pageSize) => {
+    setCurrentPage(current)
+    const offset = (current - 1) * pageSize
+    setCurrentData(currentProducts.slice(offset, offset + pageSize))
+  }
+
   return (
     <Container>
+      <PaginationStyle />
       <List>
         {
-          loading ?
-            <>
+          loading
+            ? <>
               <Item>
                 <CardSkeleton />
               </Item>
@@ -98,14 +126,21 @@ function ProductList (props) {
                 <CardSkeleton />
               </Item>
             </>
-          :
-          currentProducts.map((item, index) => (
-            <Item key={`${item.id}-${index}`}>
-              <Card item={item} />
-            </Item>
-          ))
+            : currentData.map((item, index) => (
+              <Item key={`${item.id}-${index}`}>
+                <Card item={item} />
+              </Item>
+            ))
         }
       </List>
+      <Pagination
+        total={currentProducts.length}
+        prevIcon={<span>prev</span>}
+        nextIcon={<span>next</span>}
+        pageSize={itemsPerPage}
+        onChange={handlePaginate}
+        current={currentPage}
+      />
     </Container>
   )
 }
