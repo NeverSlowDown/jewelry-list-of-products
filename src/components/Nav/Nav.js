@@ -156,7 +156,7 @@ function Nav (props) {
           </Button>
         </Item>
         <Item>
-          <Button to="/sets" activeClassName="current">
+          <Button to="/stakingsets" activeClassName="current">
             <IconContainer>
               <IconBox />
             </IconContainer>

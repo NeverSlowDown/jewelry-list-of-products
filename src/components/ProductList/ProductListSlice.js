@@ -62,16 +62,47 @@ export const {
   toggleLoading
 } = productList.actions
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-export const getProductsAll = async dispatch => {
+const apiDictionary = {
+  '/': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/shop_all.json',
+    list: productsAll
+  },
+  '/bracelets': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/bracelets.json',
+    list: productsBracelets
+  },
+  '/necklaces': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/necklaces.json',
+    list: productsNecklaces
+  },
+  '/earrings': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/earrings.json',
+    list: productsEarrings
+  },
+  '/engagement': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/engagement.json',
+    list: productsEngagement
+  },
+  '/pendants': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/pendants.json',
+    list: productsPendants
+  },
+  '/rings': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/rings.json',
+    list: productsRings
+  },
+  '/stakingsets': {
+    get: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/stacking-sets.json',
+    list: productsStakingSets
+  }
+}
+
+export const getProducts = category => async dispatch => {
   try {
     await dispatch(toggleLoading)
     const res = await axios({
       method: 'get',
-      url: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/shop_all.json'
+      url: apiDictionary[category].get
     })
 
     const data = res.data
@@ -82,83 +113,14 @@ export const getProductsAll = async dispatch => {
       products = [...products, ...item.products]
     })
 
-    dispatch(productsAll(products))
+    const getItems = apiDictionary[category].list
+
+    dispatch(getItems(products))
   } catch (error) {
     console.log(error.response)
 
     return error.response
   }
-  dispatch(toggleLoading)
-}
-
-export const getProductsFavorites = async dispatch => {
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsBracelets = async dispatch => {
-  try {
-    await dispatch(toggleLoading)
-    const res = await axios({
-      method: 'get',
-      url: 'http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/bracelets.json'
-    })
-
-    const data = res.data
-
-    // let's get only the products of all these categories
-    let products = []
-    data.map(item => {
-      products = [...products, ...item.products]
-    })
-
-    dispatch(productsBracelets(products))
-  } catch (error) {
-    console.log(error.response)
-
-    return error.response
-  }
-  dispatch(toggleLoading)
-}
-export const getProductsNecklaces = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/necklaces.json
-
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsEarrings = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/earrings.json
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsEngagement = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/engagement.json
-
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsPendants = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/pendants.json
-
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsRings = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/rings.json
-
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
-  dispatch(toggleLoading)
-}
-export const getProductsStakingSets = async dispatch => {
-// http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/stacking-sets.json
-
-  dispatch(toggleLoading)
-  await dispatch(productsAll)
   dispatch(toggleLoading)
 }
 

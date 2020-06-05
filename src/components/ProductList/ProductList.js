@@ -8,15 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  getProductsAll,
-  getProductsFavorites,
-  getProductsBracelets,
-  getProductsNecklaces,
-  getProductsEarrings,
-  getProductsEngagement,
-  getProductsPendants,
-  getProductsRings,
-  getProductsStakingSets,
+  getProducts,
   allProducts,
   favoritesProducts,
   braceletsProducts,
@@ -64,54 +56,27 @@ function ProductList (props) {
   const stakingsets = useSelector(stakingsetsProducts)
 
   const productDictionary = {
-    '/': {
-      list: all,
-      get: getProductsAll
-    },
-    '/favorites': {
-      list: favorites,
-      get: getProductsFavorites
-    },
-    '/bracelets': {
-      list: bracelets,
-      get: getProductsBracelets
-    },
-    '/necklaces': {
-      list: necklaces,
-      get: getProductsNecklaces
-    },
-    '/earrings': {
-      list: earrings,
-      get: getProductsEarrings
-    },
-    '/engagement': {
-      list: engagement,
-      get: getProductsEngagement
-    },
-    '/pendants': {
-      list: pendants,
-      get: getProductsPendants
-    },
-    '/rings': {
-      list: rings,
-      get: getProductsRings
-    },
-    '/stakingset': {
-      list: stakingsets,
-      get: getProductsStakingSets
-    }
+    '/': all,
+    '/favorites': favorites,
+    '/bracelets': bracelets,
+    '/necklaces': necklaces,
+    '/earrings': earrings,
+    '/engagement': engagement,
+    '/pendants': pendants,
+    '/rings': rings,
+    '/stakingsets': stakingsets
   }
 
   // everytime the location changes it dispatches the proper category GET
   useEffect(() => {
     // I use currentUrl to call the function that I need depending on my location
-    !productDictionary[currentUrl.pathname].list.length > 0 &&
-    dispatch(productDictionary[currentUrl.pathname].get)
+    !productDictionary[currentUrl.pathname].length > 0 &&
+    dispatch(getProducts(currentUrl.pathname))
   }, [currentUrl])
 
   // and when the redux state changes it sets current products
   useEffect(() => {
-    setCurrentProducts(productDictionary[currentUrl.pathname].list)
+    setCurrentProducts(productDictionary[currentUrl.pathname])
   }, [currentUrl, all, favorites, bracelets, necklaces, earrings, engagement, pendants, rings, stakingsets])
 
   console.log({ currentProducts })
