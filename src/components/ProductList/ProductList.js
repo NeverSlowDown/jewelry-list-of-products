@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../Card'
+import CardSkeleton from '../Card/CardSkeleton'
 import styled from 'styled-components/macro'
 
 import { useLocation } from 'react-router-dom'
@@ -8,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
+  isLoading,
   getProducts,
   allProducts,
   favoritesProducts,
@@ -44,6 +46,7 @@ function ProductList (props) {
 
   const [currentProducts, setCurrentProducts] = useState([])
 
+  const loading = useSelector(isLoading)
   // my products redux state:
   const all = useSelector(allProducts)
   const favorites = useSelector(favoritesProducts)
@@ -79,15 +82,29 @@ function ProductList (props) {
     setCurrentProducts(productDictionary[currentUrl.pathname])
   }, [currentUrl, all, favorites, bracelets, necklaces, earrings, engagement, pendants, rings, stakingsets])
 
-  console.log({ currentProducts })
   return (
     <Container>
       <List>
-        {currentProducts.map((item, index) => (
-          <Item key={`${item.id}-${index}`}>
-            <Card item={item} />
-          </Item>
-        ))}
+        {
+          loading ?
+            <>
+              <Item>
+                <CardSkeleton />
+              </Item>
+              <Item>
+                <CardSkeleton />
+              </Item>
+              <Item>
+                <CardSkeleton />
+              </Item>
+            </>
+          :
+          currentProducts.map((item, index) => (
+            <Item key={`${item.id}-${index}`}>
+              <Card item={item} />
+            </Item>
+          ))
+        }
       </List>
     </Container>
   )

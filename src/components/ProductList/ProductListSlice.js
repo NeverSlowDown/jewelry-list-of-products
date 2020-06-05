@@ -16,8 +16,8 @@ export const productList = createSlice({
     stakingSets: []
   },
   reducers: {
-    toggleLoading: state => {
-      state.loading = !state.loading
+    toggleLoading: (state, {payload}) => {
+      state.loading = payload
     },
     productsAll: (state, { payload }) => {
       state.all = payload
@@ -99,7 +99,7 @@ const apiDictionary = {
 
 export const getProducts = category => async dispatch => {
   try {
-    await dispatch(toggleLoading)
+    dispatch(toggleLoading(true))
     const res = await axios({
       method: 'get',
       url: apiDictionary[category].get
@@ -118,10 +118,10 @@ export const getProducts = category => async dispatch => {
     dispatch(getItems(products))
   } catch (error) {
     console.log(error.response)
-
+    dispatch(toggleLoading(false))
     return error.response
   }
-  dispatch(toggleLoading)
+  dispatch(toggleLoading(false))
 }
 
 export const allProducts = state => state.products.all
@@ -133,5 +133,6 @@ export const engagementProducts = state => state.products.engagement
 export const pendantsProducts = state => state.products.pendants
 export const ringsProducts = state => state.products.rings
 export const stakingsetsProducts = state => state.products.stakingSets
+export const isLoading = state => state.products.loading
 
 export default productList.reducer

@@ -11,11 +11,24 @@ export const Container = styled.article`
   border-radius: 20px 0 0 0;
   overflow: hidden;
   position: relative;
-  
+  min-height: 250px;
   box-shadow: 0px 5px 16px 0px #0000002e;
   transition: 0.3s ease;
   &:hover {
     box-shadow: 0px 10px 20px 0px #0000002e;
+  }
+  animation: fadeUp 0.5s 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `
 
@@ -32,7 +45,7 @@ const Image = styled.img`
   width: 100%;
 `
 
-const Description = styled.div`
+export const Description = styled.div`
   display: flex;
   flex-direction: column;
   background: rgba(255,255,255,0.9);
