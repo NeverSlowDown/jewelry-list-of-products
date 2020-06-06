@@ -7,7 +7,7 @@ export const productList = createSlice({
     loading: false,
     error: false,
     all: [],
-    favorites: [],
+    favorites: JSON.parse(localStorage.getItem('favorites')) || [],
     bracelets: [],
     necklaces: [],
     earrings: [],

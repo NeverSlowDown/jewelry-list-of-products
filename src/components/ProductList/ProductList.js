@@ -32,6 +32,7 @@ const Container = styled.section`
   min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 `
 const List = styled.ul`
   padding: 40px;
@@ -99,6 +100,34 @@ const ErrorText = styled.span`
   font-weight: 300;
 `
 
+const EmptyContainer = styled.article`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+`
+
+const EmptyText = styled.span`
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.5s 0.5s ease forwards;
+  @keyframes fadeUp {
+    0%{
+      transform: translateY(20px)
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`
+
 function ProductList (props) {
   const dispatch = useDispatch()
   const currentUrl = useLocation()
@@ -139,7 +168,7 @@ function ProductList (props) {
     // If I got an error on a previous endpoint call I reset the error status
     failed && dispatch(toggleError(false))
     // I use currentUrl to call the function that I need depending on my location
-    !productDictionary[currentUrl.pathname].length > 0 &&
+    !productDictionary[currentUrl.pathname].length > 0 && currentUrl.pathname !== '/favorites' &&
     dispatch(getProducts(currentUrl.pathname))
   }, [currentUrl])
 
@@ -183,11 +212,17 @@ function ProductList (props) {
                   <CardSkeleton />
                 </Item>
               </>
-              : currentData.map((item, index) => (
-                <Item key={`${item.id}-${index}`}>
-                  <Card item={item} />
-                </Item>
-              ))
+              : currentData.length === 0
+                ? <EmptyContainer>
+                  <EmptyText>
+                    No items found
+                  </EmptyText>
+                </EmptyContainer>
+                : currentData.map((item, index) => (
+                  <Item key={`${item.id}-${index}`}>
+                    <Card item={item} />
+                  </Item>
+                ))
           }
         </List>
       }

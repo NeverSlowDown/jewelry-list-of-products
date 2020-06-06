@@ -136,6 +136,11 @@ function Card ({ item }) {
     result !== undefined && setFav(!fav)
   }, [])
 
+  useEffect(() => {
+    // every time favoritesState updates I save this in localStorage
+    localStorage.setItem('favorites', JSON.stringify(favoritesState))
+  }, [favoritesState])
+
   return (
     <Container>
       <ImageContainer>
