@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Card from '../Card'
 import CardSkeleton from '../Card/CardSkeleton'
 import styled, { createGlobalStyle } from 'styled-components/macro'
+import errorImage from '../../assets/notfound.jpg'
 
 import { useLocation } from 'react-router-dom'
 
@@ -12,6 +13,8 @@ import Pagination from 'rc-pagination'
 
 import {
   isLoading,
+  error,
+  toggleError,
   getProducts,
   allProducts,
   favoritesProducts,
@@ -77,6 +80,24 @@ const PaginationStyle = createGlobalStyle`
     }
   }
 `
+const ErrorContainer = styled.figure`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  flex-direction: column;
+  img {
+    max-width: 500px;
+    width: 100%;
+  }
+`
+const ErrorText = styled.span`
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 300;
+`
 
 function ProductList (props) {
   const dispatch = useDispatch()
@@ -86,6 +107,7 @@ function ProductList (props) {
   const [currentData, setCurrentData] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const loading = useSelector(isLoading)
+  const failed = useSelector(error)
 
   // my products redux state:
   const all = useSelector(allProducts)
@@ -114,6 +136,8 @@ function ProductList (props) {
 
   // everytime the location changes it dispatches the proper category GET
   useEffect(() => {
+    // If I got an error on a previous endpoint call I reset the error status
+    failed && dispatch(toggleError(false))
     // I use currentUrl to call the function that I need depending on my location
     !productDictionary[currentUrl.pathname].length > 0 &&
     dispatch(getProducts(currentUrl.pathname))
@@ -138,27 +162,36 @@ function ProductList (props) {
   return (
     <Container>
       <PaginationStyle />
-      <List>
-        {
-          loading
-            ? <>
-              <Item>
-                <CardSkeleton />
-              </Item>
-              <Item>
-                <CardSkeleton />
-              </Item>
-              <Item>
-                <CardSkeleton />
-              </Item>
-            </>
-            : currentData.map((item, index) => (
-              <Item key={`${item.id}-${index}`}>
-                <Card item={item} />
-              </Item>
-            ))
-        }
-      </List>
+      {failed
+        ? <ErrorContainer>
+          <ErrorText>
+            There was an error, try again later!
+          </ErrorText>
+          <img src={errorImage} alt="error" />
+        </ErrorContainer>
+        : <List>
+          {
+            loading
+              ? <>
+                <Item>
+                  <CardSkeleton />
+                </Item>
+                <Item>
+                  <CardSkeleton />
+                </Item>
+                <Item>
+                  <CardSkeleton />
+                </Item>
+              </>
+              : currentData.map((item, index) => (
+                <Item key={`${item.id}-${index}`}>
+                  <Card item={item} />
+                </Item>
+              ))
+          }
+        </List>
+      }
+
       {!loading && currentProducts.length > 0 &&
         <Pagination
           total={currentProducts.length}

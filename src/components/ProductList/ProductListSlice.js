@@ -5,6 +5,7 @@ export const productList = createSlice({
   name: 'products',
   initialState: {
     loading: false,
+    error: false,
     all: [],
     favorites: [],
     bracelets: [],
@@ -18,6 +19,9 @@ export const productList = createSlice({
   reducers: {
     toggleLoading: (state, { payload }) => {
       state.loading = payload
+    },
+    toggleError: (state, { payload }) => {
+      state.error = payload
     },
     productsAll: (state, { payload }) => {
       state.all = payload
@@ -62,7 +66,8 @@ export const {
   productsPendants,
   productsRings,
   productsStakingSets,
-  toggleLoading
+  toggleLoading,
+  toggleError
 } = productList.actions
 
 const apiDictionary = {
@@ -122,6 +127,7 @@ export const getProducts = category => async dispatch => {
   } catch (error) {
     console.log(error.response)
     dispatch(toggleLoading(false))
+    dispatch(toggleError(true))
     return error.response
   }
   dispatch(toggleLoading(false))
@@ -137,5 +143,6 @@ export const pendantsProducts = state => state.products.pendants
 export const ringsProducts = state => state.products.rings
 export const stakingsetsProducts = state => state.products.stakingSets
 export const isLoading = state => state.products.loading
+export const error = state => state.products.error
 
 export default productList.reducer
