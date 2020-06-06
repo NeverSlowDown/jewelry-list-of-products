@@ -7,10 +7,14 @@ import { ReactComponent as IconBox } from '../../assets/box.svg'
 import { ReactComponent as IconBracelet } from '../../assets/bracelet.svg'
 import { ReactComponent as IconEarring } from '../../assets/earring.svg'
 import { ReactComponent as IconEngagement } from '../../assets/engagement.svg'
-import { ReactComponent as IconFavorite } from '../../assets/favorite.svg'
+import { ReactComponent as IconFavorite } from '../../assets/save.svg'
 import { ReactComponent as IconNecklace } from '../../assets/necklace.svg'
 import { ReactComponent as IconPendant } from '../../assets/pendant.svg'
 import { ReactComponent as IconRing } from '../../assets/ring.svg'
+
+import { useSelector } from 'react-redux'
+
+import { favoritesProducts } from '../ProductList/ProductListSlice'
 
 const MainNav = styled.nav`
   display: flex;
@@ -78,6 +82,7 @@ const IconContainer = styled.figure`
   width: 40px;
   height: 40px;
   margin-bottom: 5px;
+  position: relative;
   .current & {
     transition: 0.3s ease;
     background: #debd9d;
@@ -87,7 +92,36 @@ const IconContainer = styled.figure`
   }
 `
 
+const FavoriteCounter = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: red;
+  color: white;
+  font-weight: bold;
+  font-size: 8px;
+  justify-content: center;
+  border-radius: 50%;
+  animation: popUp 0.5s ease;
+  @keyframes popUp {
+    0%{
+      transform: scale(0)
+    }
+    50% {
+      transform: scale(1.5)
+    }
+    100% {
+      transform: scale(1)
+    }
+  }
+`
+
 function Nav (props) {
+  const favoriteCounter = useSelector(favoritesProducts).length
   return (
     <MainNav>
       <CategoryList>
@@ -103,6 +137,11 @@ function Nav (props) {
           <Button to="/favorites" activeClassName="current">
             <IconContainer>
               <IconFavorite />
+              {favoriteCounter > 0 &&
+                <FavoriteCounter>
+                  {favoriteCounter}
+                </FavoriteCounter>
+              }
             </IconContainer>
             My Favorites
           </Button>
