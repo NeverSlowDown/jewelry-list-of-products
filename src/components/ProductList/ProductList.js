@@ -35,6 +35,9 @@ const Container = styled.section`
   position: relative;
 `
 const List = styled.ul`
+  @media screen and (max-width: 767px) {
+    padding: 20px;
+  }
   padding: 40px;
   flex: 1 1 100%;
   display: grid;

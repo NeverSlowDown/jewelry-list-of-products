@@ -62,6 +62,11 @@ export const Description = styled.div`
   ${Container}:hover & {
     transform: translateY(0);
   }
+  @media screen and (max-width: 767px) {
+    position: static;
+    box-shadow: 0px 0px 10px #00000038;
+    transform: translateY(0)
+  }
 `
 
 const Name = styled.p`
@@ -95,6 +100,9 @@ const Save = styled.button`
     g {
       fill: ${props => props.isSaved ? 'white' : 'black'}
     }
+  }
+  @media screen and (max-width: 767px) {
+    transform: scale(1)
   }
 `
 

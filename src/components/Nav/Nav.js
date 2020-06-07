@@ -11,6 +11,8 @@ import { ReactComponent as IconFavorite } from '../../assets/save.svg'
 import { ReactComponent as IconNecklace } from '../../assets/necklace.svg'
 import { ReactComponent as IconPendant } from '../../assets/pendant.svg'
 import { ReactComponent as IconRing } from '../../assets/ring.svg'
+import { ReactComponent as IconFilter } from '../../assets/filter.svg'
+import { ReactComponent as IconCross } from '../../assets/cross.svg'
 
 import { useSelector } from 'react-redux'
 
@@ -22,9 +24,12 @@ const MainNav = styled.nav`
   top: 0;
   height: 100vh;
   flex: 0 0 120px;
-  box-shadow: 1px 0px 20px 0px #7b7b7b54;
   position: sticky;
   top: 0;
+  @media screen and (max-width: 767px) {
+    flex: 0;
+    z-index: 1;
+  }
 `
 
 const CategoryList = styled.ul`
@@ -33,6 +38,14 @@ const CategoryList = styled.ul`
   flex: 1;
   max-height: 100vh;
   overflow-y: auto;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 1px 0px 20px 0px #7b7b7b54;
+  @media screen and (max-width: 767px) {
+    position: fixed;
+    transition: 0.3s ease;
+    transform: translateX(${props => props.isHidden ? -100 : 0}%);
+    height: 100%;
+  }
 `
 
 const Item = styled.li`
@@ -120,11 +133,53 @@ const FavoriteCounter = styled.div`
   }
 `
 
+export const ButtonFilter = styled.button`
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+  position: fixed;
+  right: 40px;
+  bottom: 80px;
+  box-shadow: 1px 2px 3px 1px rgba(0, 0, 0, 0.26);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #debd9d;
+  width: 50px;
+  height: 50px;
+  border: none;
+  overflow: hidden;
+`
+
+export const MenuFilter = styled(IconFilter)`
+  width: 22px;
+  fill: white;
+  transition: 0.3s ease;
+  transform: translateX(${props => props.isHidden ? 0 : 40}px);
+  position: absolute
+`
+
+const Cross = styled(IconCross)`
+  width: 32px;
+  path {
+    fill: white;
+  }
+  transition: 0.3s ease;
+  transform: translateX(${props => props.isHidden ? 40 : 0}px);
+  position: absolute;
+`
+
 function Nav (props) {
   const favoriteCounter = useSelector(favoritesProducts).length
+  const [isOpen, setIsOpen] = useState(true)
   return (
     <MainNav>
-      <CategoryList>
+      <ButtonFilter onClick={() => setIsOpen(!isOpen)}>
+        <MenuFilter isHidden={isOpen} />
+        <Cross isHidden={isOpen}/>
+      </ButtonFilter>
+      <CategoryList isHidden={isOpen}>
         <Item>
           <Button exact to="/" activeClassName="current">
             <IconContainer>

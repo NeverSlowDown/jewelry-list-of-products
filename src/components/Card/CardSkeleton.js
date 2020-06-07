@@ -24,6 +24,13 @@ const Skeleton = styled.div`
 const ItemDescription = styled(Description)`
   height: 70px;
   animation: description 0.5s 0.5s ease forwards;
+  @media screen and (max-width: 767px) {
+    animation: none;
+    z-index: 1;
+    transform: none;
+    bottom: 0;
+    position: absolute;
+  }
   @keyframes description {
     100% {
       transform: translateY(0);
