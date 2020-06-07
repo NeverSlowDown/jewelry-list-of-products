@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import { ReactComponent as IconSave } from '../../assets/save.svg'
-import { ReactComponent as IconLinkExternal } from '../../assets/external.svg'
 
 import { productsFavorites, favoritesProducts } from '../ProductList/ProductListSlice'
 import { useSelector, useDispatch } from 'react-redux'
@@ -73,27 +72,6 @@ const Name = styled.p`
   text-align: center;
 `
 
-const ViewMore = styled.div`
-  border: none;
-  padding: 0;
-  position: absolute;
-  top: -16px;
-  background: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  transition: 0.3s ease;
-  left: calc(50% - 16px);
-  background: #ffffffe6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  svg {
-    width: 22px;
-  }
-`
-
 const Save = styled.button`
   border: none;
   padding: 0;
@@ -150,9 +128,6 @@ function Card ({ item }) {
         <IconSave />
       </Save>
       <Description>
-        <ViewMore>
-          <IconLinkExternal />
-        </ViewMore>
         <Name>
           {name}
         </Name>
