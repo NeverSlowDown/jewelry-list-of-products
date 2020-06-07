@@ -1,3 +1,21 @@
+## notes
+this project is built with:
+
+React Hooks
+Redux Toolkit
+React Router
+Styled-components
+Axios
+React-pagination
+
+All categories are working except for "Necklaces" (more about this in the next section), due to the failing endpoint I use this category as a "handling errors example",
+for loading I use Skeletons as main technique.
+using routing for categories
+favorite items are also stored in localStorage
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+
+
 ## error in documentation of task
 Necklaces: http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/pendants.json
 
@@ -5,7 +23,6 @@ Pendants: http://mejuri-fe-challenge.s3-website-us-east-1.amazonaws.com/pendants
 
 necklaces and pendandts share same URL
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
 
@@ -18,18 +35,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

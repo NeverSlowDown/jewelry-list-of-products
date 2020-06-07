@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import Card from '../Card'
 import CardSkeleton from '../Card/CardSkeleton'
 import styled, { createGlobalStyle } from 'styled-components/macro'
@@ -63,6 +62,16 @@ const PaginationStyle = createGlobalStyle`
     align-items: center;
     overflow: hidden;
     max-height: 50px;
+    opacity: 0;
+    animation: fadeUp 0.5s 1s ease forwards;
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
   }
   li.rc-pagination-item, .rc-pagination-next, .rc-pagination-prev {
     padding: 15px;
@@ -241,10 +250,6 @@ function ProductList (props) {
         />}
     </Container>
   )
-}
-
-ProductList.propTypes = {
-
 }
 
 export default ProductList
