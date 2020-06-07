@@ -42,6 +42,7 @@ const CategoryList = styled.ul`
   box-shadow: 1px 0px 20px 0px #7b7b7b54;
   @media screen and (max-width: 767px) {
     position: fixed;
+    top: 0;
     transition: 0.3s ease;
     transform: translateX(${props => props.isHidden ? -100 : 0}%);
     height: 100%;
