@@ -5,7 +5,7 @@ import App from './App'
 import store from './app/store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import {
   BrowserRouter as Router
 } from 'react-router-dom'
@@ -15,13 +15,19 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
   }
 `
+// this a theme object where you can change theming of the site, try changing the color of the main property!
+const theme = {
+  main: '#debd9d'
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
     <Provider store={store}>
       <Router>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </Router>
     </Provider>
   </React.StrictMode>,

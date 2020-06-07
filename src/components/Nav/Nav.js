@@ -71,11 +71,11 @@ const Button = styled(NavLink)`
   font-weight: 300;
   &:active, &:focus{
     outline: none;
-    color: #debd9d
+    color: ${props => props.theme.main}
   }
   &:hover{
     svg g {
-      fill: #debd9d
+      fill: ${props => props.theme.main}
     }
     &.current{
       color: black;
@@ -98,7 +98,7 @@ const IconContainer = styled.figure`
   position: relative;
   .current & {
     transition: 0.3s ease;
-    background: #debd9d;
+    background: ${props => props.theme.main};
   }
   svg {
     width: 24px;
@@ -145,7 +145,7 @@ export const ButtonFilter = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #debd9d;
+  background: ${props => props.theme.main};
   width: 50px;
   height: 50px;
   border: none;

@@ -71,7 +71,7 @@ const PaginationStyle = createGlobalStyle`
     font-weight: 300;
     cursor: pointer;
     &:hover, &.rc-pagination-item-active {
-      background: #debd9d
+      background: ${props => props.theme.main}
     }
     &.rc-pagination-disabled{
       opacity: 0.5
